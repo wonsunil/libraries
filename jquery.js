@@ -57,6 +57,17 @@
 		css: function(attribute, value) {
 			
 		},
+
+		// 속성 추가/변경
+		attr: function(attribute, value) {
+			if(this.selector.length !== 1) {
+				return this.selector.forEach(function(item) {
+					item.setAttribute(attribute, value)
+				});
+			};
+
+			return this.selector[0].setAttribute(attribute, value);
+		}
 	};
 	jQuery.extend = jQuery.fn.extend = function(obj) {
 		$[Object.keys(obj)[0]] = $.prototype[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]];
