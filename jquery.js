@@ -68,6 +68,17 @@
 
 			return this.selector[0].setAttribute(attribute, value);
 		},
+
+		// 배열 생성
+		makeArray: function(originalArray) {
+			const duplicateArray = [];
+
+			for(let i = 0; i < originalArray.length; i++) {
+				duplicateArray.push(originalArray[i]);
+			}
+
+			return duplicateArray;
+		},
 	};
 	jQuery.extend = jQuery.fn.extend = function(obj) {
 		$[Object.keys(obj)[0]] = $.prototype[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]];
