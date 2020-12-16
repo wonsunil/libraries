@@ -16,7 +16,6 @@
 		return new jQuery.fn.init(target);	
 	};
 	window.$ = jQuery;
-
 	jQuery.fn = jQuery.prototype = {
 		constructor: jQuery,
 
@@ -70,11 +69,11 @@
 			return this.selector[0].setAttribute(attribute, value);
 		},
 	};
-	jQuery.extend = jQuery.fn.extend = obj => {
+	jQuery.extend = jQuery.fn.extend = function(obj) {
 		$[Object.keys(obj)[0]] = $.prototype[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]];
 	};
 	
-	var init = jQuery.fn.init = target => {
+	var init = jQuery.fn.init = function(target) {
 		if(target === document) this[0] = document;
 		else{
 			if(target.indexOf("#") === 0) this[0] = document.querySelector(target);
@@ -89,10 +88,10 @@
 	init.prototype = jQuery.fn;
 
 	jQuery.extend({
-		Deferred: func => {
+		Deferred: function(func) {
 			deferred = {};
-			then = funcs => {
-				return new Promise((resolve, reject) => {
+			then = function(func) {
+				return new Promise(function(resolve, reject) {
 					resolve(func);
 				});
 			};
@@ -102,7 +101,7 @@
 	});
 
 	jQuery.extend({
-		ajax: options => {
+		ajax: function(options) {
 			options = options || {};
 			result = {
 				res:  null,
@@ -114,7 +113,7 @@
 			};
 
 			xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = _ => {
+			xhr.onreadystatechange = function() {
 				if(this.readyState === 4) {
 					if(this.status === 200) {
 						options.success(xhr.response);
@@ -130,10 +129,10 @@
 			if(options.type.toUpperCase() === "POST") xhr.send(options.data);
 			else xhr.send();
 
-			jqxhr.done = callback => {
+			jqxhr.done = function(callback) {
 				callback(result);
 			};
-			jqxhr.fail = err => {
+			jqxhr.fail = function(err) {
 				jqxhr.fail = function() {return false;};
 				jqxhr.error = jqxhr.fail;
 
