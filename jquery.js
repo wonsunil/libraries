@@ -16,6 +16,7 @@
 		return new jQuery.fn.init(target);	
 	};
 	window.$ = jQuery;
+
 	jQuery.fn = jQuery.prototype = {
 		constructor: jQuery,
 
@@ -67,29 +68,31 @@
 			};
 
 			return this.selector[0].setAttribute(attribute, value);
-		}
+		},
 	};
-	jQuery.extend = jQuery.fn.extend = function(obj) {
+	jQuery.extend = jQuery.fn.extend = obj => {
 		$[Object.keys(obj)[0]] = $.prototype[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]];
 	};
 	
-	var init = jQuery.fn.init = function(target) {
-		if(target == document) this.selector = document;
+	var init = jQuery.fn.init = target => {
+		if(target === document) this[0] = document;
 		else{
-			if(target.indexOf("#") === 0) this.selector = document.querySelector(target);
-
-			this.selector = document.querySelectorAll(target);
+			if(target.indexOf("#") === 0) this[0] = document.querySelector(target);
+			else this[0] = this.makeArray(document.querySelectorAll(target));
 		};
+
+		this.context = document;
+		this.selector = target;
 
 		return this;
 	};
 	init.prototype = jQuery.fn;
 
 	jQuery.extend({
-		Deferred: function(func) {
+		Deferred: func => {
 			deferred = {};
-			then = function(func) {
-				return new Promise(function(resolve, reject) {
+			then = funcs => {
+				return new Promise((resolve, reject) => {
 					resolve(func);
 				});
 			};
@@ -99,7 +102,7 @@
 	});
 
 	jQuery.extend({
-		ajax: function(options) {
+		ajax: options => {
 			options = options || {};
 			result = {
 				res:  null,
@@ -111,7 +114,7 @@
 			};
 
 			xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function() {
+			xhr.onreadystatechange = _ => {
 				if(this.readyState === 4) {
 					if(this.status === 200) {
 						options.success(xhr.response);
@@ -127,10 +130,10 @@
 			if(options.type.toUpperCase() === "POST") xhr.send(options.data);
 			else xhr.send();
 
-			jqxhr.done = function(callback) {
+			jqxhr.done = callback => {
 				callback(result);
 			};
-			jqxhr.fail = function(err) {
+			jqxhr.fail = err => {
 				jqxhr.fail = function() {return false;};
 				jqxhr.error = jqxhr.fail;
 
