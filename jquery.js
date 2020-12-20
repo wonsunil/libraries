@@ -42,20 +42,23 @@
 		},
 
 		// 하위 요소 찾기
-		find : function(node) {
-			console.log(this.selector, node, this.selector.childNodes);
-			array = [];
-			this.selector.childNodes.forEach(function(item, index) {
-				if(index % 2 != 0) {
-					if(item.nodeName == node.toUpperCase()) array.push(item);
-				};
-			});
-			return array;
+		find : function(target) {
+			this[0] = $(this.selector)[0].querySelector(target);
+			this.selector = `${this.selector} ${target}`;
+
+			return this;
 		},
 
 		// 스타일 변경
 		css: function(attribute, value) {
-			
+			if(typeof attribute !== "object")
+				this[0].style[attribute] = value;
+
+			for(const key in attribute) {
+				this[0].style[key] = attribute[key];
+			}
+
+			return this;
 		},
 
 		// 속성 추가/변경
@@ -86,6 +89,7 @@
 	
 	var init = jQuery.fn.init = function(target) {
 		if(target === document) this[0] = document;
+		else if(target === "body") this[0] = document.querySelector("body");
 		else{
 			if(target.indexOf("#") === 0) this[0] = document.querySelector(target);
 			else this[0] = this.makeArray(document.querySelectorAll(target));
