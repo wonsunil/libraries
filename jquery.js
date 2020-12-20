@@ -76,11 +76,21 @@
 		makeArray: function(originalArray) {
 			const duplicateArray = [];
 
-			for(let i = 0; i < originalArray.length; i++) {
-				duplicateArray.push(originalArray[i]);
+			for(const key in originalArray) {
+				if(typeof originalArray[key] !== "function") {
+					duplicateArray[key] = originalArray[key];
+				}
 			}
 
 			return duplicateArray;
+		},
+
+		// 인자 찾기
+		eq: function(index) {
+			this.prevObject = $(this.selector);
+			this[0] = $(this.selector)[0][index];
+
+			return this;
 		},
 	};
 	jQuery.extend = jQuery.fn.extend = function(obj) {
@@ -88,15 +98,22 @@
 	};
 	
 	var init = jQuery.fn.init = function(target) {
-		if(target === document) this[0] = document;
-		else if(target === "body") this[0] = document.querySelector("body");
-		else{
-			if(target.indexOf("#") === 0) this[0] = document.querySelector(target);
-			else this[0] = this.makeArray(document.querySelectorAll(target));
+		if(typeof target === "object") {
+			this[0] = document.querySelector(target.selector);
+
+			this.selector = target.selector;
+		}else{
+			if(target === document) this[0] = document;
+			else if(target === "body") this[0] = document.querySelector("body");
+			else{
+				if(target.indexOf("#") === 0) this[0] = document.querySelector(target);
+				else this[0] = this.makeArray(document.querySelectorAll(target));
+			};
+
+			this.selector = target;
 		};
 
 		this.context = document;
-		this.selector = target;
 
 		return this;
 	};
