@@ -96,7 +96,7 @@
 		html: function(text) {
 			if(text === undefined) return this;
 
-			this[0].innerHTML = text;
+			this[0].insertAdjacentHTML("beforeend", text);
 
 			return this;
 		},
