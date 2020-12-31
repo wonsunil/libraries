@@ -142,6 +142,14 @@
 
 	jQuery.extend({
 		each: function(target, callback) {
+			if(typeof target === "function") {
+				for(let i = 0, limit = this[0].length; i < limit; i++) {
+					target(i, this[0][i]);
+				}
+
+				return;
+			};
+
 			if(target.length) {
 				for(let i = 0, limit = target.length; i < limit; i++) {
 					callback(i, target[i]);
