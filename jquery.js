@@ -92,6 +92,14 @@
 
 			return this;
 		},
+
+		html: function(text) {
+			if(text === undefined) return this;
+
+			this[0].innerHTML = text;
+
+			return this;
+		},
 	};
 	jQuery.extend = jQuery.fn.extend = function(obj) {
 		$[Object.keys(obj)[0]] = $.prototype[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]];
