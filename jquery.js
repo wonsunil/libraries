@@ -141,6 +141,14 @@
 	});
 
 	jQuery.extend({
+		each: function(array, callback) {
+			for(let i = 0, limit = array.length; i < limit; i++) {
+				callback(array[i]);
+			}
+		}
+	});
+
+	jQuery.extend({
 		ajax: function(options) {
 			options = options || {};
 			result = {
