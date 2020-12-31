@@ -141,10 +141,22 @@
 	});
 
 	jQuery.extend({
-		each: function(array, callback) {
-			for(let i = 0, limit = array.length; i < limit; i++) {
-				callback(array[i]);
-			}
+		each: function(target, callback) {
+			if(target.length) {
+				for(let i = 0, limit = target.length; i < limit; i++) {
+					callback(i, target[i]);
+				}
+
+				return;
+			};
+
+			if(typeof target === "object") {
+				for(const key in target) {
+					callback(key, target[key]);
+				}
+
+				return;
+			};
 		}
 	});
 
